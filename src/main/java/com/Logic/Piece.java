@@ -18,6 +18,19 @@ public abstract class Piece {
         this.col = col;
     }
 
+    // Getters for color and position
+    public Color getColor() {
+        return color;
+    }
+    
+    public int getRow() {
+        return row;
+    }
+    
+    public int getCol() {
+        return col;
+    }
+
     // called by GameState to update the position of this piece
     final public void updatePosition(int row, int col) {
         this.row = row;

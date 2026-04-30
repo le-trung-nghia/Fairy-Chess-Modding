@@ -1,7 +1,7 @@
 package com.GUI;
 
 import com.Logic.Piece;
-import com.Logic.Pieces;
+import com.Logic.GameState;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,15 +18,19 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 	
-	private static final int SQUARE_SIZE = 120;
-	private Pieces logic;
+	private static final int SQUARE_SIZE = 95;
+	private GameState logic;
 	private Pane boardPane;
 	private int selectedRow = -1;
 	private int selectedCol = -1;
 	
-	public void renderBoard(Pane boardPane, Pieces logic) {
-	    // Board
+	public void renderBoard(Pane boardPane, GameState logic) {
+	    // Board background - scale to board size
 	    ImageView background = new ImageView(new Image(getClass().getResourceAsStream("/Chess_Board.png")));
+	    int boardSize = SQUARE_SIZE * 8;
+	    background.setFitWidth(boardSize);
+	    background.setFitHeight(boardSize);
+	    background.setPreserveRatio(false);
 	    boardPane.getChildren().add(background);
 
 	    // Add invisible squares for click detection
@@ -45,7 +49,7 @@ public class App extends Application {
 	    // Piece grid
 	    for (int row = 0; row < 8; row++) {
 	        for (int col = 0; col < 8; col++) {
-	            Piece piece = logic.getPiece(row, col);
+	            Piece piece = logic.getSquare(row, col);
 
 	            if (piece != null) {
 	                addPieceToBoard(boardPane, piece, row, col);
@@ -91,7 +95,7 @@ public class App extends Application {
 	    if (selectedRow != -1) {
 	        movePiece(selectedRow, selectedCol, row, col);
 	        clearSelection();
-	    } else if (logic.getPiece(row, col) != null) {
+	    } else if (logic.getSquare(row, col) != null) {
 	        // No piece selected, so select the piece at this square (if there is one)
 	        selectedRow = row;
 	        selectedCol = col;
@@ -99,17 +103,18 @@ public class App extends Application {
 	    }
 	}
 	
+  // TODO: Change this after correct implementation
 	private void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
 	    // Check if destination is occupied
-	    if (logic.getPiece(toRow, toCol) != null) {
+	    if (logic.getSquare(toRow, toCol) != null) {
 	        System.out.println("Cannot move piece to occupied square");
 	        return;
 	    }
 	    
-	    // Move the piece
-	    Piece piece = logic.getPiece(fromRow, fromCol);
+	    // Move the piece using GameState's displace method
+	    Piece piece = logic.getSquare(fromRow, fromCol);
 	    if (piece != null) {
-	        logic.movePiece(fromRow, fromCol, toRow, toCol);
+	        logic.displace(fromRow, fromCol, toRow, toCol);
 	        
 	        // Re-render to show the new positions
 	        redrawBoard();
@@ -135,8 +140,9 @@ public class App extends Application {
 
         // Layout & Scene
         boardPane = new Pane();
-        logic = new Pieces();
-        Scene scene = new Scene(boardPane, 960, 960);        
+        logic = new GameState();
+        int boardSize = SQUARE_SIZE * 8;
+        Scene scene = new Scene(boardPane, boardSize, boardSize);        
         renderBoard(boardPane, logic);
 
         stage.setTitle("Fairy Chess 2026");
