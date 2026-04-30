@@ -1,4 +1,11 @@
-package com.Logic;
+package com.Logic.pieces;
+
+import com.Logic.Color;
+import com.Logic.GameState;
+import com.Logic.Piece;
+import com.Logic.Position;
+import com.Logic.Rectangle;
+import com.Logic.Vector;
 
 public class King extends Piece {
     public King(Color color, Position position) {
@@ -8,7 +15,7 @@ public class King extends Piece {
     @Override
     protected String icon() {
         // returns the patb for the resource file containing the icon of the King piece
-        return "king.png";
+        return color == Color.BLACK ? "black_king.png" : "white_king.png"; // returns the color as well
     }
 
     @Override

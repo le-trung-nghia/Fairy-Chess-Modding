@@ -6,7 +6,8 @@ public abstract class Piece {
     protected Color color;
     protected Position position;
 
-    Piece(Color color, Position position) {
+    // Change constructor to public so it's visible
+    public Piece(Color color, Position position) {
         this.color = color;
         this.position = position;
     }

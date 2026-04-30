@@ -35,4 +35,7 @@ public class BoardPiece {
     public Color color() {
         return color;
     }
+
+    // Exposed the method icon
+    public String icon() {return piece.icon();}
 }
