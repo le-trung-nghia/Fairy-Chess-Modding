@@ -15,9 +15,17 @@ public record Vector(int row, int col) {
         }
     }
 
+    public boolean equals(Vector other) {
+        return (this.row == other.row && this.col == other.col);
+    }
+
     // add another vector to this vector
     public Vector add(Vector other) {
         return new Vector(this.row + other.row, this.col + other.col);
+    }
+
+    public Vector saturatingAdd(Vector other) {
+        return new Vector(Math.clamp(this.row + other.row, 0, 7), Math.clamp(this.col + other.col, 0, 7));
     }
 
     // subtract another vector from this vector
@@ -25,9 +33,17 @@ public record Vector(int row, int col) {
         return new Vector(this.row - other.row, this.col - other.col);
     }
 
+    public Vector saturatingSub(Vector other) {
+        return new Vector(Math.clamp(this.row - other.row, 0, 7), Math.clamp(this.col - other.col, 0, 7));
+    }
+
     // multiply this vector by a scalar
     public Vector mul(int multiplier) {
         return new Vector(row * multiplier, col * multiplier);
+    }
+
+    public Vector saturatingMul(int multiplier) {
+        return new Vector(Math.clamp(row * multiplier, 0, 7), Math.clamp(col * multiplier, 0, 7));
     }
 
     // returns true if this is a zero vector

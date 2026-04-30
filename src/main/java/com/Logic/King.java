@@ -24,24 +24,25 @@ public class King extends Piece {
 
     @Override
     protected String[][] getMovableSquares(GameState state) {
-        // each element of the 2D array contains the image file that is displayed on each movable square
+        // each element of the 2D array contains the image file that is displayed on
+        // each movable square
         String[][] movableSquares = new String[8][8];
         int row = position.row();
         int col = position.col();
         // the King can move to and attack all surrounding squares
-        for (int i = Math.max(row - 1, 0); i < Math.min(row + 1, 8); i++) {
-            for (int j = Math.max(col - 1, 0); j < Math.min(col + 1, 8); j++) {
-                if (i != row && j != col) {
-                    if (state.hasEnemy(position, color)) {
-                        movableSquares[i][j] = "attack.png";
-                    } else {
-                        movableSquares[i][j] = "move.png";
-                    }
+        for (Position square : new Rectangle(position.saturatingSub(new Vector(1, 1)),
+                position.saturatingAdd(new Vector(1, 1)))) {
+            if (square.row() != row && square.col() != col) {
+                if (state.hasEnemy(position, color)) {
+                    movableSquares[square.row()][square.col()] = "attack.png";
+                } else {
+                    movableSquares[square.row()][square.col()] = "move.png";
                 }
             }
         }
         return movableSquares;
     }
 
-    // this piece does not listen to any events, so event methods do not need to be overridden
+    // this piece does not listen to any events, so event methods do not need to be
+    // overridden
 }

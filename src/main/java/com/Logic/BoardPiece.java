@@ -6,7 +6,7 @@ public class BoardPiece {
     private Color color;
     private Piece piece;
 
-    public BoardPiece(boolean isKing, Color color, Piece piece) {
+    BoardPiece(boolean isKing, Color color, Piece piece) {
         this.isKing = isKing;
         this.color = color;
         this.piece = piece;
