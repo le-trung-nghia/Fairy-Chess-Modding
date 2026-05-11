@@ -1,5 +1,7 @@
 package com.Logic;
 
+import java.util.Objects;
+
 // A piece on the board along with some state
 public class BoardPiece {
     private boolean isKing;
@@ -13,19 +15,19 @@ public class BoardPiece {
     }
 
     void move(Position pos) {
-        piece.move(pos);
+        piece.move(Objects.requireNonNull(pos));
     }
 
     void displace(GameState state, Position pos) {
-        piece.displace(state, pos);
+        piece.displace(Objects.requireNonNull(state), Objects.requireNonNull(pos));
     }
 
     void capture(GameState state) {
-        piece.onCapture(state);
+        piece.onCapture(Objects.requireNonNull(state));
     }
 
     void changeColor(GameState state, Color color) {
-        piece.changeColor(state, color);
+        piece.changeColor(Objects.requireNonNull(state), Objects.requireNonNull(color));
     }
 
     public boolean isKing() {
@@ -37,5 +39,7 @@ public class BoardPiece {
     }
 
     // Exposed the method icon
-    public String icon() {return piece.icon();}
+    public String icon() {
+        return piece.icon();
+    }
 }

@@ -7,6 +7,7 @@ import com.Logic.pieces.Bishop;
 import com.Logic.pieces.Queen;
 import com.Logic.pieces.King;
 import java.util.ArrayList;
+import java.util.Objects;
 
 // The entire state of the game at one point in the match
 public class GameState {
@@ -23,22 +24,28 @@ public class GameState {
     }
 
     private void setSquare(Position pos, BoardPiece piece) {
+        Objects.requireNonNull(pos);
+        Objects.requireNonNull(piece);
         board[pos.row()][pos.col()] = piece;
     }
 
     private void swapSquares(Position src, Position dst) {
+        Objects.requireNonNull(src);
+        Objects.requireNonNull(dst);
         BoardPiece dstPiece = getSquare(dst);
         setSquare(dst, getSquare(src));
         setSquare(src, dstPiece);
     }
 
     // get the turn number
-    public int getTurnNumber() {
+    public int turnNumber() {
         return turnNumber;
     }
 
     // displace a piece on the board to another location
     public void displace(Position src, Position dst) {
+        Objects.requireNonNull(src);
+        Objects.requireNonNull(dst);
         if (getSquare(src) == null) {
             throw new IllegalStateException(
                     "Cannot displace piece at (%d, %d) because there is no piece there."
@@ -54,11 +61,15 @@ public class GameState {
     }
 
     public void displace(Position src, Vector displacement) {
+        Objects.requireNonNull(src);
+        Objects.requireNonNull(displacement);
         displace(src, src.add(displacement));
     }
 
     // move a piece on the board to another location
     public void move(Position src, Position dst) {
+        Objects.requireNonNull(src);
+        Objects.requireNonNull(dst);
         if (getSquare(src) == null) {
             throw new IllegalStateException(
                     "Cannot move piece at (%d, %d) because there is no piece there."
@@ -74,16 +85,21 @@ public class GameState {
     }
 
     public void move(Position src, Vector displacement) {
+        Objects.requireNonNull(src);
+        Objects.requireNonNull(displacement);
         move(src, src.add(displacement));
     }
 
     public void capture(Position pos) {
+        Objects.requireNonNull(pos);
         BoardPiece piece = getSquare(pos);
         setSquare(pos, null);
         piece.capture(this);
     }
 
     public boolean hasEnemy(Position pos, Color color) {
+        Objects.requireNonNull(pos);
+        Objects.requireNonNull(color);
         BoardPiece piece = getSquare(pos);
         return piece != null && piece.color() != color;
     }
@@ -91,7 +107,6 @@ public class GameState {
     public void passControl() {
         turnPlayer = turnPlayer.oppositeColor();
     }
-
 
     // Add constructor to initialize game state
     public GameState() {
