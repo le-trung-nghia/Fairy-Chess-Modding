@@ -8,13 +8,10 @@ import com.Logic.Position;
 import one.util.streamex.StreamEx;
 
 // The union of two regions. Includes all the squares in the first component region and in the second component region.
-public class Union implements BoardRegion {
-    private BoardRegion firstRegion;
-    private BoardRegion secondRegion;
-
-    Union(BoardRegion firstRegion, BoardRegion secondRegion) {
-        this.firstRegion = firstRegion;
-        this.secondRegion = secondRegion;
+public record Union(BoardRegion firstRegion, BoardRegion secondRegion) implements BoardRegion {
+    public Union {
+        Objects.requireNonNull(firstRegion);
+        Objects.requireNonNull(secondRegion);
     }
 
     @Override
