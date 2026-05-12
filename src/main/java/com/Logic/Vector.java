@@ -3,9 +3,6 @@ package com.Logic;
 import java.util.Objects;
 
 public record Vector(int row, int col) {
-    final static Vector TOWARDS_BLACK = new Vector(1, 0);
-    final static Vector TOWARDS_WHITE = new Vector(-1, 0);
-
     public boolean equals(Vector other) {
         Objects.requireNonNull(other);
         return (this.row == other.row && this.col == other.col);
