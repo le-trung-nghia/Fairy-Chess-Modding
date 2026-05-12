@@ -54,6 +54,16 @@ public record Vector(int row, int col) {
         return !this.isZero() && Math.abs(row) == Math.abs(col);
     }
 
+    // rotate this vector clockwise by 90 degrees
+    public Vector rotateClockwise() {
+        return new Vector(col, -row);
+    }
+
+    // rotate this vector counterclockwise by 90 degrees
+    public Vector rotateCounterclockwise() {
+        return new Vector(-col, row);
+    }
+
     // if this vector is a positive multiple of a direction unit vector, return that
     // direction
     // else, throws IllegalArgumentException
