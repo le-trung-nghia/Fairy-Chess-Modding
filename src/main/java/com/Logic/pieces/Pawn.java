@@ -22,27 +22,15 @@ public class Pawn extends Piece {
 
     @Override
     protected void onMoveCommand(GameState state, Position to) {
-        Direction forward = color.forwardDirection();
-        Vector fwd = forward.unitVector();
-
-        Position oneStep = position.add(fwd);
-        Position twoSteps = position.add(fwd.mul(2));
-        Position captureLeft = position.add(forward.skewLeft().unitVector());
-        Position captureRight = position.add(forward.skewRight().unitVector());
-
-        if (to.equals(oneStep) || to.equals(twoSteps)) {
-            //Movement
+        String[][] movable = getMovableSquares(state);
+        if (movable[to.row()][to.col()] != null) {
+            if (state.hasEnemy(to, color)) {
+                state.capture(to);
+            }
             state.move(position, to);
             hasMoved = true;
+            state.passControl();
         }
-        else if ((to.equals(captureLeft) || to.equals(captureRight)) && state.hasEnemy(to, color)) {
-            //Capture
-            state.capture(to);
-            state.move(position, to);
-            hasMoved = true;
-        }
-
-        state.passControl();
     }
 
     @Override
