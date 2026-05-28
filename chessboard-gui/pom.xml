@@ -30,6 +30,17 @@
 
     <build>
         <plugins>
+            <!-- Dev/test: mvn javafx:run  (runs from classes, no fat JAR needed) -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>com.chess.gui.App</mainClass>
+                </configuration>
+            </plugin>
+
+            <!-- Delivery: mvn package  → root/target/chessboard-gui-*.jar (fat JAR) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

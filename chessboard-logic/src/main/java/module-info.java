@@ -5,4 +5,7 @@ module com.chess.logic {
     exports com.chess.logic.boardregion;
 
     requires transitive one.util.streamex;
+
+    // Required so PieceRegistry can call ServiceLoader.load(Piece.class, ...)
+    uses com.chess.logic.types.Piece;
 }
