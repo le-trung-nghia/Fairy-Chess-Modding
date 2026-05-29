@@ -1,5 +1,6 @@
 package com.chess.viking;
 
+import com.chess.gui.OverlayRenderer;
 import com.chess.logic.state.BoardPiece;
 import com.chess.logic.state.GameState;
 import com.chess.logic.types.Color;
@@ -7,13 +8,35 @@ import com.chess.logic.types.Direction;
 import com.chess.logic.types.Piece;
 import com.chess.logic.types.Position;
 import com.chess.logic.types.Vector;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 // Piece Viking
 // Movement rules: Move up to 2 times horizontally or vertically (not all moves have to be in the same direction).
-public class Viking extends Piece {
+public class Viking extends Piece implements OverlayRenderer {
 
     private static final Direction[] CARDINAL =
             { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
+
+    // Overlay rendering
+    @Override
+    public void renderMoveOverlay(Pane pane, double x, double y, double squareSize) {
+        Circle dot = new Circle(x + squareSize / 2.0, y + squareSize / 2.0, squareSize / 4.5);
+        dot.setFill(javafx.scene.paint.Color.color(0.1, 0.1, 0.1, 0.35));
+        dot.setMouseTransparent(true);
+        pane.getChildren().add(dot);
+    }
+
+    @Override
+    public void renderAttackOverlay(Pane pane, double x, double y, double squareSize) {
+        Rectangle ring = new Rectangle(x, y, squareSize, squareSize);
+        ring.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        ring.setStroke(javafx.scene.paint.Color.color(0.85, 0.1, 0.1, 0.8));
+        ring.setStrokeWidth(5);
+        ring.setMouseTransparent(true);
+        pane.getChildren().add(ring);
+    }
 
     // Identity
     @Override
@@ -66,14 +89,12 @@ public class Viking extends Piece {
                     }
                     // Own piece at step2 → blocked, skip
                 }
-
             } else if (at1.color() != thisState.color()) {
                 // Enemy at step 1 — can capture, but path ends here
                 moves[step1.row()][step1.col()] = "attack.png";
             }
             // Own piece at step1 → fully blocked in this direction
         }
-
         return moves;
     }
 }

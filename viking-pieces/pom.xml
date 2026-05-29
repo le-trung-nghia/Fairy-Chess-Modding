@@ -7,13 +7,14 @@
     <groupId>com.chess</groupId>
     <!-- JAR filename -->
     <artifactId>viking-pieces</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>25</maven.compiler.release>
-    </properties>
+    <parent>
+        <groupId>com.chess</groupId>
+        <artifactId>chessboard</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
     <!-- chessboard-logic must already be in ~/.m2 before building this.
     Run  mvn install  from the Fairy-Chess root project first. -->
@@ -21,7 +22,16 @@
         <dependency>
             <groupId>com.chess</groupId>
             <artifactId>chessboard-logic</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.chess</groupId>
+            <artifactId>chessboard-gui</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>
