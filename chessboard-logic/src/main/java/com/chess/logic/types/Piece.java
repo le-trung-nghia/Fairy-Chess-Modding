@@ -22,11 +22,11 @@ public abstract class Piece {
     public abstract void onMoveCommand(GameState gameState, BoardPiece thisState, Position to);
 
     // get the squares this piece can move to
-    // returns a 2D array of Strings that are filenames of images that should be
-    // overlaid on the movable squares
+    // returns a 2D array of marker strings overlaid on movable squares
     // array can contain nulls to indicate that the corresponding square cannot be
     // moved to
     public abstract String[][] getMovableSquares(GameState state, BoardPiece thisState);
+
 
     // called when this piece is displaced by another piece
     // thisState contains this piece's position after the displacement

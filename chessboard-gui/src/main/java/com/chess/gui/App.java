@@ -1,5 +1,6 @@
 package com.chess.gui;
 
+import com.chess.gui.OverlayRenderer;
 import com.chess.logic.state.BoardPiece;
 import com.chess.logic.state.GameState;
 import com.chess.logic.state.PieceState;
@@ -720,7 +721,7 @@ public class App extends Application {
         }
 
         if (!inReplay && selectedPosition != null && validMoves != null)
-            renderMoveHighlights(pane, validMoves);
+            renderMoveHighlights(pane, validMoves, state.getSquare(selectedPosition));
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -735,29 +736,62 @@ public class App extends Application {
         }
     }
 
-    private void renderMoveHighlights(Pane pane, String[][] moves) {
+    private void renderMoveHighlights(Pane pane, String[][] moves, BoardPiece selected) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if (moves[row][col] == null) continue;
+                String iconName = moves[row][col];
                 double x = col * SQUARE_SIZE, y = row * SQUARE_SIZE;
 
-                if (moves[row][col].equals("attack.png")) {
-                    Rectangle ring = new Rectangle(x, y, SQUARE_SIZE, SQUARE_SIZE);
-                    ring.setFill(Color.TRANSPARENT);
-                    ring.setStroke(Color.color(0.85, 0.1, 0.1, 0.8));
-                    ring.setStrokeWidth(5);
-                    ring.setMouseTransparent(true);
-                    pane.getChildren().add(ring);
-                } else {
-                    Circle dot = new Circle(
-                            x + SQUARE_SIZE / 2.0, y + SQUARE_SIZE / 2.0, SQUARE_SIZE / 4.5);
-                    dot.setFill(Color.color(0.1, 0.1, 0.1, 0.35));
-                    dot.setMouseTransparent(true);
-                    pane.getChildren().add(dot);
+                // Priority 1 — image file provided in the piece's own JAR
+                InputStream imgStream = selected != null ? selected.resourceStream(iconName) : null;
+                if (imgStream != null) {
+                    ImageView iv = new ImageView(new Image(imgStream));
+                    iv.setX(x);
+                    iv.setY(y);
+                    iv.setFitWidth(SQUARE_SIZE);
+                    iv.setFitHeight(SQUARE_SIZE);
+                    iv.setMouseTransparent(true);
+                    pane.getChildren().add(iv);
+                    continue;
+                }
+
+                // Priority 2 — piece overrides OverlayRenderer with custom JavaFX code
+                if (selected != null && selected.piece() instanceof OverlayRenderer r) {
+                    switch (iconName) {
+                        case "move.png"   -> r.renderMoveOverlay(pane, x, y, SQUARE_SIZE);
+                        case "attack.png" -> r.renderAttackOverlay(pane, x, y, SQUARE_SIZE);
+                        default -> throw new IllegalStateException(
+                                "Unknown overlay iconName '%s' — use move.png or attack.png."
+                                        .formatted(iconName));
+                    }
+                    continue;
+                }
+
+                // Priority 3 — default built-in shapes
+                switch (iconName) {
+                    case "move.png" -> {
+                        Circle dot = new Circle(x + SQUARE_SIZE / 2.0, y + SQUARE_SIZE / 2.0, SQUARE_SIZE / 4.5);
+                        dot.setFill(Color.color(0.1, 0.1, 0.1, 0.35));
+                        dot.setMouseTransparent(true);
+                        pane.getChildren().add(dot);
+                    }
+                    case "attack.png" -> {
+                        Rectangle ring = new Rectangle(x, y, SQUARE_SIZE, SQUARE_SIZE);
+                        ring.setFill(Color.TRANSPARENT);
+                        ring.setStroke(Color.color(0.85, 0.1, 0.1, 0.8));
+                        ring.setStrokeWidth(5);
+                        ring.setMouseTransparent(true);
+                        pane.getChildren().add(ring);
+                    }
+                    default -> throw new IllegalStateException(
+                            "Unknown overlay iconName '%s' — use move.png or attack.png."
+                                    .formatted(iconName));
                 }
             }
         }
     }
+
 
     private void addPieceToPane(Pane pane, BoardPiece piece, int row, int col, boolean dim) {
         InputStream stream = piece.iconStream();

@@ -3,5 +3,6 @@ module com.chess.gui {
     requires javafx.graphics;
     requires javafx.controls;
 
+    exports com.chess.gui;
     opens com.chess.gui to javafx.graphics;
 }

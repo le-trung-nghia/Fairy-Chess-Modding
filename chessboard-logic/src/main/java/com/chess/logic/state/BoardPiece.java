@@ -56,6 +56,9 @@ public class BoardPiece {
         return this.state.position();
     }
 
+    // Expose the underlying piece (e.g. for instanceof checks in the GUI)
+    public Piece piece() { return piece; }
+
     // Expose the method icon
     public String icon() {
         return piece.icon(this);
@@ -66,6 +69,12 @@ public class BoardPiece {
     public final InputStream iconStream() {
         return piece.getClass().getClassLoader().getResourceAsStream(icon());
     }
+
+    // Load any named resource from the piece's own JAR — null if not found
+    public InputStream resourceStream(String name) {
+        return piece.getClass().getClassLoader().getResourceAsStream(name);
+    }
+
 
     // Delegate valid-move computation to the underlying piece
     public String[][] getMovableSquares(GameState state) {
