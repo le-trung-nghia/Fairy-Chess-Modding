@@ -27,7 +27,7 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- Sub-module format: com.github.USER.REPO : artifactId : version -->
+            <!-- Currently the version used commit hash, future change ths to git tag version -->
             <dependency>
                 <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
                 <artifactId>chessboard-logic</artifactId>

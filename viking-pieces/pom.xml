@@ -15,12 +15,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!--
-        All three dependencies are "provided":
-        - chessboard-logic and chessboard-gui come from JitPack (compile-time only)
-        - javafx-controls is already on the classpath when the game runs
-        None of them get bundled into the output JAR.
-    -->
     <dependencies>
         <dependency>
             <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
@@ -55,10 +49,6 @@
                 </configuration>
             </plugin>
 
-            <!--
-                After  mvn package  the JAR lands in target/packs/
-                Copy it from there into the game's packs/ folder to test.
-            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
