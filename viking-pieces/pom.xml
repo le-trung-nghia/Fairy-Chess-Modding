@@ -4,28 +4,31 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.chess</groupId>
-    <!-- JAR filename -->
+    <groupId>com.chess.mod</groupId>
     <artifactId>viking-pieces</artifactId>
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.chess</groupId>
-        <artifactId>chessboard</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>com.chess.mod</groupId>
+        <artifactId>fairy-chess-mod</artifactId>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <!-- chessboard-logic must already be in ~/.m2 before building this.
-    Run  mvn install  from the Fairy-Chess root project first. -->
+    <!--
+        All three dependencies are "provided":
+        - chessboard-logic and chessboard-gui come from JitPack (compile-time only)
+        - javafx-controls is already on the classpath when the game runs
+        None of them get bundled into the output JAR.
+    -->
     <dependencies>
         <dependency>
-            <groupId>com.chess</groupId>
+            <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
             <artifactId>chessboard-logic</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.chess</groupId>
+            <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
             <artifactId>chessboard-gui</artifactId>
             <scope>provided</scope>
         </dependency>
@@ -38,6 +41,7 @@
 
     <build>
         <plugins>
+            <!-- Stamp the JAR manifest so the game can identify this pack -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -50,13 +54,18 @@
                     </archive>
                 </configuration>
             </plugin>
+
+            <!--
+                After  mvn package  the JAR lands in target/packs/
+                Copy it from there into the game's packs/ folder to test.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>push-to-global-plugins</id>
+                        <id>push-to-packs</id>
                         <phase>package</phase>
                         <goals>
                             <goal>run</goal>

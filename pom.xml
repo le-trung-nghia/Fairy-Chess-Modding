@@ -2,15 +2,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.chess</groupId>
-    <artifactId>chessboard</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+
+    <groupId>com.chess.mod</groupId>
+    <artifactId>fairy-chess-mod</artifactId>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>chessboard-logic</module>
-        <module>chessboard-gui</module>
-        <module>base-pieces</module>
         <module>viking-pieces</module>
     </modules>
 
@@ -18,36 +16,34 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
         <javafx.version>25.0.2</javafx.version>
-        <streamex.version>0.8.3</streamex.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Sub-module format: com.github.USER.REPO : artifactId : version -->
+            <dependency>
+                <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
+                <artifactId>chessboard-logic</artifactId>
+                <version>d27b50f</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
+                <artifactId>chessboard-gui</artifactId>
+                <version>d27b50f</version>
+            </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-controls</artifactId>
                 <version>${javafx.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-fxml</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>one.util</groupId>
-                <artifactId>streamex</artifactId>
-                <version>${streamex.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.chess</groupId>
-                <artifactId>chessboard-logic</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.chess</groupId>
-                <artifactId>chessboard-gui</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>
