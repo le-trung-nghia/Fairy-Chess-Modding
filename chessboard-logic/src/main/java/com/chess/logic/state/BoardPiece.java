@@ -63,7 +63,7 @@ public class BoardPiece {
 
     // Load the icon using the piece's own classloader so plugin JARs find their own
     // resources
-    public InputStream iconStream() {
+    public final InputStream iconStream() {
         return piece.getClass().getClassLoader().getResourceAsStream(icon());
     }
 
