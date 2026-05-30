@@ -1,23 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.chess.mod</groupId>
-    <artifactId>fairy-chess-mod</artifactId>
+    <artifactId>Ouroboros-King-pack</artifactId>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>viking-pieces</module>
-    </modules>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
         <javafx.version>25.0.2</javafx.version>
+        <!-- Currently using a commit hash during testing, use tag like v1.0.0 once released.-->
+        <fairychess.version>dfdaee7</fairychess.version>
     </properties>
 
+    <!-- JitPack hosts the FairyChess core JARs -->
     <repositories>
         <repository>
             <id>jitpack.io</id>
@@ -25,25 +25,74 @@
         </repository>
     </repositories>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Currently the version used commit hash, future change ths to git tag version -->
-            <dependency>
-                <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
-                <artifactId>chessboard-logic</artifactId>
-                <version>d27b50f</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
-                <artifactId>chessboard-gui</artifactId>
-                <version>d27b50f</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-controls</artifactId>
-                <version>${javafx.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <dependencies>
+        <!--All three are "provided": present at compile time, NOT bundled in the output JAR.-->
+        <dependency>
+            <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
+            <artifactId>chessboard-logic</artifactId>
+            <version>${fairychess.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
+            <artifactId>chessboard-gui</artifactId>
+            <version>${fairychess.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Stamp the JAR so the game can identify this pack by name -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Pack-Name>${project.artifactId}</Pack-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!--
+                After  mvn package  the JAR is copied to target/packs/.
+                Copy it from there into the game's packs/ folder to test.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>push-to-packs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/packs" />
+                                <copy todir="${project.build.directory}/packs">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="${project.build.finalName}.jar" />
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
