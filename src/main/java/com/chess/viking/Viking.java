@@ -61,6 +61,9 @@ public class Viking extends Piece implements OverlayRenderer {
         state.passControl();
     }
 
+    @Override
+    public com.chess.registry.PiecePath[] promotionOptions(GameState state, BoardPiece thisState) { return null; }
+
     // Returns all squares the Viking can legally move to.
     @Override
     public String[][] getMovableSquares(GameState state, BoardPiece thisState) {
