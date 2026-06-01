@@ -12,9 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>25</maven.compiler.release>
-        <javafx.version>25.0.2</javafx.version>
-        <!-- Currently using a commit hash during testing, use tag like v1.0.0 once released.-->
-        <fairychess.version>ef9758b</fairychess.version>
+<!-- Currently using a commit hash during testing, use tag like v1.0.0 once released.-->
+        <fairychess.version>e673f29</fairychess.version>
     </properties>
 
     <!-- JitPack hosts the FairyChess core JARs -->
@@ -26,23 +25,11 @@
     </repositories>
 
     <dependencies>
-        <!--All three are "provided": present at compile time, NOT bundled in the output JAR.-->
+        <!-- Both are "provided": present at compile time, NOT bundled in the output JAR. -->
         <dependency>
             <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
             <artifactId>chessboard-logic</artifactId>
             <version>${fairychess.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
-            <artifactId>chessboard-gui</artifactId>
-            <version>${fairychess.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

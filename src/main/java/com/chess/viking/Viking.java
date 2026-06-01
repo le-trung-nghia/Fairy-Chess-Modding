@@ -1,6 +1,5 @@
 package com.chess.viking;
 
-import com.chess.gui.OverlayRenderer;
 import com.chess.logic.state.BoardPiece;
 import com.chess.logic.state.GameState;
 import com.chess.logic.types.Color;
@@ -8,35 +7,14 @@ import com.chess.logic.types.Direction;
 import com.chess.logic.types.Piece;
 import com.chess.logic.types.Position;
 import com.chess.logic.types.Vector;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import com.chess.registry.PiecePath;
 
 // Piece Viking
 // Movement rules: Move up to 2 times horizontally or vertically (not all moves have to be in the same direction).
-public class Viking extends Piece implements OverlayRenderer {
+public class Viking extends Piece {
 
     private static final Direction[] CARDINAL =
             { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
-
-    // Overlay rendering
-    @Override
-    public void renderMoveOverlay(Pane pane, double x, double y, double squareSize) {
-        Circle dot = new Circle(x + squareSize / 2.0, y + squareSize / 2.0, squareSize / 4.5);
-        dot.setFill(javafx.scene.paint.Color.color(0.1, 0.1, 0.1, 0.35));
-        dot.setMouseTransparent(true);
-        pane.getChildren().add(dot);
-    }
-
-    @Override
-    public void renderAttackOverlay(Pane pane, double x, double y, double squareSize) {
-        Rectangle ring = new Rectangle(x, y, squareSize, squareSize);
-        ring.setFill(javafx.scene.paint.Color.TRANSPARENT);
-        ring.setStroke(javafx.scene.paint.Color.color(0.85, 0.1, 0.1, 0.8));
-        ring.setStrokeWidth(5);
-        ring.setMouseTransparent(true);
-        pane.getChildren().add(ring);
-    }
 
     // Identity
     @Override
@@ -49,6 +27,9 @@ public class Viking extends Piece implements OverlayRenderer {
         return thisState.color() == Color.BLACK ? "black_viking.png" : "white_viking.png";
     }
 
+    @Override
+    public PiecePath[] promotionOptions(GameState state, BoardPiece thisState) { return null; }
+
     // Movement
     // Executes a move.  Captures an enemy at the destination first (if present),
     // then moves the Viking there, then passes control to the other player.
@@ -60,9 +41,6 @@ public class Viking extends Piece implements OverlayRenderer {
         state.move(thisState.position(), to);
         state.passControl();
     }
-
-    @Override
-    public com.chess.registry.PiecePath[] promotionOptions(GameState state, BoardPiece thisState) { return null; }
 
     // Returns all squares the Viking can legally move to.
     @Override
