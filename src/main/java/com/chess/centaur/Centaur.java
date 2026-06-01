@@ -19,6 +19,7 @@ public class Centaur extends Piece {
         new Vector(2,-1),  new Vector(2,1)
     };
 
+    @Override public boolean isKing() { return false; }
     @Override public String identifier() { return "centaur"; }
 
     @Override

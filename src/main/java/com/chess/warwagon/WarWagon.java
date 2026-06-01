@@ -13,6 +13,7 @@ public class WarWagon extends Piece {
         Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST
     };
 
+    @Override public boolean isKing() { return false; }
     @Override public String identifier() { return "war_wagon"; }
 
     @Override

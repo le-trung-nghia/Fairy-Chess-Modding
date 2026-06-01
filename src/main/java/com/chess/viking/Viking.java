@@ -17,6 +17,8 @@ public class Viking extends Piece {
             { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
 
     // Identity
+    @Override public boolean isKing() { return false; }
+
     @Override
     public String identifier() {
         return "viking";

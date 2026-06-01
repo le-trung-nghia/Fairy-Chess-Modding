@@ -14,6 +14,7 @@ public class Cardinal extends Piece {
         Direction.SOUTHEAST, Direction.SOUTHWEST
     };
 
+    @Override public boolean isKing() { return false; }
     @Override public String identifier() { return "cardinal"; }
 
     @Override
