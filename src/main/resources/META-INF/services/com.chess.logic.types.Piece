@@ -1,1 +1,5 @@
 com.chess.viking.Viking
+com.chess.cardinal.Cardinal
+com.chess.centaur.Centaur
+com.chess.unicorn.Unicorn
+com.chess.warwagon.WarWagon
