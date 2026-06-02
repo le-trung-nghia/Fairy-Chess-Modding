@@ -1,6 +1,7 @@
 # COMP1020 Final Project Team 8: Fairy Chess Example Piece Pack
 
 This repository serves as example of a piece pack for our Fairy Chess project.
+This repository can be found on GitHub at <https://github.com/le-trung-nghia/Fairy-Chess-Modding>.
 
 ## Dependencies
 

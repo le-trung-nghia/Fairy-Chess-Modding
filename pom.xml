@@ -25,7 +25,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Both are "provided": present at compile time, NOT bundled in the output JAR. -->
         <dependency>
             <groupId>com.github.le-trung-nghia.Fairy-Chess</groupId>
             <artifactId>chessboard-logic</artifactId>
